@@ -32,71 +32,52 @@ public class CalculatorTest {
     }
 
     @Test
-    public void testAddition() throws InterruptedException {
+    public void testAddition() {
+        calculatorPage.resetCalculator();
         calculatorPage.enterFirstNumber("88");
-        Thread.sleep(1500);
         calculatorPage.enterSecondNumber("11");
-        Thread.sleep(1500);
         calculatorPage.operatorDropdown("+");
-        Thread.sleep(1500);
         calculatorPage.clickCalculate();
-        Thread.sleep(1500);
+
 
         String result = calculatorPage.getResult();
         Assert.assertEquals(result, "99"); // validasi hasil
-
-        calculatorPage.resetCalculator();
     }
 
     @Test
-    public void testSubstraction() throws InterruptedException {
+    public void testSubstraction() {
+        calculatorPage.resetCalculator();
         calculatorPage.enterFirstNumber("10");
-        Thread.sleep(1500);
         calculatorPage.enterSecondNumber("3");
-        Thread.sleep(1500);
         calculatorPage.operatorDropdown("-");
-        Thread.sleep(1500);
         calculatorPage.clickCalculate();
-        Thread.sleep(1500);
 
         String result = calculatorPage.getResult();
         Assert.assertEquals(result, "7"); // validasi hasil
-
-        calculatorPage.resetCalculator();
     }
 
     @Test
-    public void testDivision() throws InterruptedException {
+    public void testDivision() {
+        calculatorPage.resetCalculator();
         calculatorPage.enterFirstNumber("20");
-        Thread.sleep(1500);
         calculatorPage.enterSecondNumber("2");
-        Thread.sleep(1500);
         calculatorPage.operatorDropdown("/");
-        Thread.sleep(1500);
         calculatorPage.clickCalculate();
-        Thread.sleep(1500);
 
         String result = calculatorPage.getResult();
         Assert.assertEquals(result, "10"); // validasi hasil
-
-        calculatorPage.resetCalculator();
     }
 
     @Test
-    public void testMultiplication() throws InterruptedException {
+    public void testMultiplication() {
+        calculatorPage.resetCalculator();
         calculatorPage.enterFirstNumber("10");
-        Thread.sleep(1500);
         calculatorPage.enterSecondNumber("10");
-        Thread.sleep(1500);
         calculatorPage.operatorDropdown("*");
-        Thread.sleep(1500);
         calculatorPage.clickCalculate();
-        Thread.sleep(1500);
 
         String result = calculatorPage.getResult();
         Assert.assertEquals(result, "100"); // validasi hasil
-
-        calculatorPage.resetCalculator();
     }
 
     @AfterClass

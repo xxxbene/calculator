@@ -33,16 +33,21 @@ public class CalculatorPage {
 
     // masukin angka pertama
     public void enterFirstNumber(String number) {
-        waitForElement(number1Field).sendKeys(number);
+        WebElement field = waitForElement (number1Field);
+        field.clear();
+        field.sendKeys(number);
         sleep();
     }
 
     // msaukin angka kedua
     public void enterSecondNumber(String number) {
-        waitForElement(number2Field).sendKeys(number);
+        WebElement field = waitForElement (number2Field);
+        field.clear();
+        field.sendKeys(number);
         sleep();
     }
 
+    // milih di dropdown
     public void operatorDropdown (String operator) {
         WebElement operatorElement = waitForElement(operatorDropdown);
         Select select = new Select(operatorElement);
@@ -50,6 +55,7 @@ public class CalculatorPage {
         sleep();
     }
 
+    // click calculate buttonnya
     public void clickCalculate() {
         driver.findElement(buttonCalculate).click();
         sleep();
@@ -57,7 +63,8 @@ public class CalculatorPage {
 
     // ngedapetin hasil
     public String getResult() {
-        return waitForElement(resultText).getText();
+        String resultTextRaw = waitForElement(resultText).getText();
+        return resultTextRaw.replace("Result: ", "").trim();
     }
 
     // buat test lebih human
@@ -65,7 +72,7 @@ public class CalculatorPage {
         try {
             Thread.sleep(1500);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            Thread.currentThread().interrupt();
         }
     }
 
