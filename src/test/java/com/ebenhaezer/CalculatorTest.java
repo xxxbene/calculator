@@ -1,7 +1,9 @@
 package com.ebenhaezer;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -11,16 +13,22 @@ public class CalculatorTest {
     private WebDriver driver;
     private CalculatorPage calculatorPage;
 
+    // konfigurasi driver browser
+    public static WebDriver buildDriver() {
+        WebDriverManager.chromedriver().driverVersion("130.0.6723.116").setup(); // set sesuai versi yang udah punya
+
+        ChromeOptions options = new ChromeOptions();
+        options.setBinary("C:\\Users\\Christian\\Downloads\\chrome-win64\\chrome-win64\\chrome.exe"); // lokasi chrome for testing
+        options.addArguments("--start-maximized"); // maxin jendela browser
+
+        return new ChromeDriver(options); // return dari driver yang udah ke konfig
+    }
+
     @BeforeClass
     public void setup() {
-        // pake chrome for testing
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Christian\\Downloads\\chrome-win64\\chrome-win64\\chrome.exe");
-        driver = new ChromeDriver();
-        // Membuka file HTML kalkulator lokal
-        driver.get("file:///C:/Users/Christian/Documents/calculator.html");
-
-
-        calculatorPage = new CalculatorPage(driver);
+        driver = buildDriver(); // manggil si builddriver
+        driver.get("file:///C:/Users/Christian/Documents/calculator.html"); // akses halaman kalkulator lokal
+        calculatorPage = new CalculatorPage(driver); // inisiasi halaman kalkulator
     }
 
     @Test
@@ -29,7 +37,7 @@ public class CalculatorTest {
         calculatorPage.enterSecondNumber("11");
         calculatorPage.clickAdd();
         String result = calculatorPage.getResult();
-        Assert.assertEquals(result, "99");
+        Assert.assertEquals(result, "99"); // validasi hasil
     }
 
     @Test
@@ -38,7 +46,7 @@ public class CalculatorTest {
         calculatorPage.enterSecondNumber("3");
         calculatorPage.clickSubstract();
         String result = calculatorPage.getResult();
-        Assert.assertEquals(result, "7");
+        Assert.assertEquals(result, "7"); // validasi hasil
     }
 
     @Test
@@ -47,7 +55,7 @@ public class CalculatorTest {
         calculatorPage.enterSecondNumber("2");
         calculatorPage.clickDivide();
         String result = calculatorPage.getResult();
-        Assert.assertEquals(result, "10");
+        Assert.assertEquals(result, "10"); // validasi hasil
     }
 
     @Test
@@ -56,7 +64,7 @@ public class CalculatorTest {
         calculatorPage.enterSecondNumber("10");
         calculatorPage.clickMultiply();
         String result = calculatorPage.getResult();
-        Assert.assertEquals(result, "100");
+        Assert.assertEquals(result, "100"); // validasi hasil
     }
 
     @AfterClass
