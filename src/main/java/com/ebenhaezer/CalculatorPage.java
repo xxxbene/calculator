@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -12,13 +13,12 @@ public class CalculatorPage {
     private WebDriver driver;
 
     // locator buat si element dari kalkulatornya
-    private By number1Field = By.id("number1");
-    private By number2Field = By.id("number2");
-    private By addButton = By.id("add");
-    private By substractButton = By.id("substract");
-    private By multiplyButton = By.id("multiply");
-    private By divideButton = By.id("divide");
+    private By number1Field = By.id("num1");
+    private By number2Field = By.id("num2");
     private By resultText = By.id("result");
+    private By buttonCalculate = By.xpath("/html/body/button");
+    private By operatorDropdown = By.id("operator");
+
 
     // pondasi buat si calculatorpagenya
     public CalculatorPage(WebDriver driver) {
@@ -34,35 +34,47 @@ public class CalculatorPage {
     // masukin angka pertama
     public void enterFirstNumber(String number) {
         waitForElement(number1Field).sendKeys(number);
+        sleep();
     }
 
     // msaukin angka kedua
     public void enterSecondNumber(String number) {
         waitForElement(number2Field).sendKeys(number);
+        sleep();
     }
 
-    // klik tombol tambah
-    public void clickAdd() {
-        waitForElement(addButton).click();
+    public void operatorDropdown (String operator) {
+        WebElement operatorElement = waitForElement(operatorDropdown);
+        Select select = new Select(operatorElement);
+        select.selectByVisibleText(operator);
+        sleep();
     }
 
-    // klik tombol kurang
-    public void clickSubstract() {
-        waitForElement(substractButton).click();
-    }
-
-    // klik tombol kali
-    public void clickMultiply() {
-        waitForElement(multiplyButton).click();
-    }
-
-    // klik tombol bagi
-    public void clickDivide() {
-        waitForElement(divideButton).click();
+    public void clickCalculate() {
+        driver.findElement(buttonCalculate).click();
+        sleep();
     }
 
     // ngedapetin hasil
     public String getResult() {
         return waitForElement(resultText).getText();
+    }
+
+    // buat test lebih human
+    private void sleep() {
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // buat ngeclear atau reset biar ga niban angka sebelumnya
+    public void resetCalculator() {
+        WebElement firstNumberField = waitForElement(number1Field);
+        WebElement secondNumberField = waitForElement(number2Field);
+        firstNumberField.clear();
+        secondNumberField.clear();
+        sleep();
     }
 }
